@@ -1,9 +1,10 @@
 import { Component } from 'react';
-import { Tabs, Input, Table, Typography } from 'antd';
-import { PhoneOutlined } from '@ant-design/icons';
+import { Tabs, Table, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import './App.css';
 import { formatDistanceToNow } from 'date-fns';
+
+import PhoneInput from './PhoneInput';
 
 const { Text } = Typography;
 export default class App extends Component {
@@ -58,19 +59,7 @@ export default class App extends Component {
             {
               label: 'Insert phone number',
               key: 'item-1',
-              children: (
-                <Input
-                  allowClear
-                  size="large"
-                  placeholder="phone number"
-                  prefix={<PhoneOutlined />}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      App.insertPhone(e.target.value);
-                    }
-                  }}
-                />
-              ),
+              children: <PhoneInput insertPhone={App.insertPhone} />,
             },
             {
               label: 'Phone numbers',
