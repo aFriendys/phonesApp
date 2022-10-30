@@ -35,7 +35,7 @@ export default class App extends Component {
       .map((phone) => {
         const tmpPhone = phone;
         tmpPhone.date = formatDistanceToNow(tmpPhone.lastUse, { addSuffix: true });
-        tmpPhone.key = `${tmpPhone.number}+${tmpPhone.lastUse}}`;
+        tmpPhone.key = `${tmpPhone.number}${tmpPhone.lastUse}}`;
         return tmpPhone;
       })
       .sort((a, b) => a.lastUse - b.lastUse);
@@ -65,7 +65,6 @@ export default class App extends Component {
                   placeholder="phone number"
                   prefix={<PhoneOutlined />}
                   onKeyDown={(e) => {
-                    e.target.value.replace(/[^0-9]/g, '');
                     if (e.key === 'Enter') {
                       App.insertPhone(e.target.value);
                     }
