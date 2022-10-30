@@ -8,9 +8,23 @@ export default class PhoneInput extends Component {
     this.state = { inputValue: '' };
   }
 
-  render() {
+  onInputExec = (e) => {
     const { insertPhone } = this.props;
     const { inputValue } = this.state;
+    if (e.key === 'Enter') {
+      insertPhone(inputValue);
+      this.setState(() => ({ inputValue: '' }));
+    }
+  };
+
+  onInputChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '');
+    this.setState(() => ({ inputValue: value }));
+  };
+
+  render() {
+    const { inputValue } = this.state;
+
     return (
       <Input
         allowClear
@@ -18,15 +32,8 @@ export default class PhoneInput extends Component {
         placeholder="phone number"
         prefix={<PhoneOutlined />}
         value={inputValue}
-        onChange={(e) => {
-          this.setState(() => ({ inputValue: e.target.value }));
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            insertPhone(inputValue);
-            this.setState(() => ({ inputValue: '' }));
-          }
-        }}
+        onChange={this.onInputChange}
+        onKeyDown={this.onInputExec}
       />
     );
   }
