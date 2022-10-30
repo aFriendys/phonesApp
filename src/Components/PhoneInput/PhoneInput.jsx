@@ -8,13 +8,11 @@ export default class PhoneInput extends Component {
     this.state = { inputValue: '' };
   }
 
-  onInputExec = (e) => {
+  onInputExec = () => {
     const { insertPhone } = this.props;
     const { inputValue } = this.state;
-    if (e.key === 'Enter') {
-      insertPhone(inputValue);
-      this.setState(() => ({ inputValue: '' }));
-    }
+    insertPhone(inputValue);
+    this.setState(() => ({ inputValue: '' }));
   };
 
   onInputChange = (e) => {
@@ -27,13 +25,14 @@ export default class PhoneInput extends Component {
 
     return (
       <Input
+        maxLength="10"
         allowClear
         size="large"
         placeholder="phone number"
         prefix={<PhoneOutlined />}
         value={inputValue}
         onChange={this.onInputChange}
-        onKeyDown={this.onInputExec}
+        onPressEnter={this.onInputExec}
       />
     );
   }
