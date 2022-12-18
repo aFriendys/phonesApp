@@ -1,29 +1,23 @@
-import { Component } from 'react';
 import { PhoneOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
+import { useState } from 'react';
 
-export default class PhoneInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { inputValue: '' };
-  }
+import styles from './PhoneInput.module.scss';
 
-  onInputExec = () => {
-    const { insertPhone } = this.props;
-    const { inputValue } = this.state;
+export default function PhoneInput({ insertPhone, lastPhone }) {
+  const [inputValue, setInputValue] = useState('');
+
+  const onInputExec = () => {
     insertPhone(inputValue);
-    this.setState(() => ({ inputValue: '' }));
+    setInputValue('');
   };
 
-  onInputChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '');
-    this.setState(() => ({ inputValue: value }));
+  const onInputChange = (e) => {
+    setInputValue(e.target.value.replace(/\D/g, ''));
   };
 
-  render() {
-    const { inputValue } = this.state;
-
-    return (
+  return (
+    <div>
       <Input
         maxLength="10"
         allowClear
@@ -31,9 +25,14 @@ export default class PhoneInput extends Component {
         placeholder="phone number"
         prefix={<PhoneOutlined />}
         value={inputValue}
-        onChange={this.onInputChange}
-        onPressEnter={this.onInputExec}
+        onChange={onInputChange}
+        onPressEnter={onInputExec}
       />
-    );
-  }
+      {lastPhone && (
+        <div className={styles.wrapper}>
+          Last used phone: <span className={styles.lastPhone}>{lastPhone}</span>
+        </div>
+      )}
+    </div>
+  );
 }
