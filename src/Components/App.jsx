@@ -55,6 +55,7 @@ export default function App() {
       newPhones[number].favorited = value;
       return newPhones;
     });
+    setInfo(() => ({ show: true, text: `Phone ${value ? 'added to' : 'removed from'} favorites` }));
   };
 
   const deletePhone = ({ number }) => {
@@ -63,6 +64,7 @@ export default function App() {
       delete newPhones[number];
       return newPhones;
     });
+    setInfo(() => ({ show: true, text: 'Phone deleted' }));
   };
 
   const columns = [
