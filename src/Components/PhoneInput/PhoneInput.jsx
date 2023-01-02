@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './PhoneInput.module.scss';
 
-export default function PhoneInput({ insertPhone, lastPhone }) {
+export default function PhoneInput({ insertPhone, lastPhone, inputRef }) {
   const [inputValue, setInputValue] = useState('');
 
   const onInputExec = () => {
@@ -19,6 +19,7 @@ export default function PhoneInput({ insertPhone, lastPhone }) {
   return (
     <div>
       <Input
+        ref={inputRef}
         maxLength="10"
         allowClear
         size="large"
