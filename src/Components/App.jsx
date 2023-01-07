@@ -18,14 +18,6 @@ export default function App() {
   const [lastPhone, setLastPhone] = useState('');
   const [info, setInfo] = useState({ show: false, text: '' });
   const inputRef = useRef(null);
-  const phonesToShow = Object.values(phones)
-    .map((phone) => {
-      const tmpPhone = phone;
-      tmpPhone.date = formatDistanceToNow(tmpPhone.lastUse, { addSuffix: true });
-      tmpPhone.key = `${tmpPhone.number}${tmpPhone.lastUse}`;
-      return tmpPhone;
-    })
-    .sort((a, b) => a.lastUse - b.lastUse);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -103,9 +95,13 @@ export default function App() {
     {
       title: 'Last use',
       key: 'date',
-      dataIndex: 'date',
-      render: (text, elem) => <td className={elem.favorited ? styles.favorited : undefined}>{text}</td>,
-      sorter: (a, b) => Number(b.date.replace(/[^0-9]/gi, '')) - Number(a.date.replace(/[^0-9]/gi, '')),
+      dataIndex: 'lastUse',
+      render: (text, elem) => (
+        <td className={elem.favorited ? styles.favorited : undefined}>
+          {formatDistanceToNow(text, { addSuffix: true })}
+        </td>
+      ),
+      sorter: (a, b) => b.lastUse - a.lastUse,
     },
     {
       key: 'delete',
@@ -138,7 +134,13 @@ export default function App() {
           {
             label: 'Phone numbers',
             key: 'explore',
-            children: <Table pagination={false} columns={columns} dataSource={phonesToShow} />,
+            children: (
+              <Table
+                pagination={false}
+                columns={columns}
+                dataSource={Object.values(phones).sort((a, b) => a.lastUse - b.lastUse)}
+              />
+            ),
           },
         ]}
       />
