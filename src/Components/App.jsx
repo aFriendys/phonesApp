@@ -101,6 +101,7 @@ export default function App() {
           {formatDistanceToNow(text, { addSuffix: true })}
         </td>
       ),
+      defaultSortOrder: 'descend',
       sorter: (a, b) => b.lastUse - a.lastUse,
     },
     {
@@ -134,13 +135,7 @@ export default function App() {
           {
             label: 'Phone numbers',
             key: 'explore',
-            children: (
-              <Table
-                pagination={false}
-                columns={columns}
-                dataSource={Object.values(phones).sort((a, b) => a.lastUse - b.lastUse)}
-              />
-            ),
+            children: <Table pagination={false} columns={columns} dataSource={Object.values(phones)} />,
           },
         ]}
       />
