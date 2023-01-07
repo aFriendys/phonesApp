@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Tabs, Table, Typography, Checkbox } from 'antd';
+import { Tabs, Table, Typography, Checkbox, Dropdown, Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './App.scss';
 import { formatDistanceToNow } from 'date-fns';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 
 import useLocalStorage from '../Hooks/useLocalStorage';
 
@@ -64,13 +64,10 @@ export default function App() {
       title: 'Favorited',
       key: 'favorited',
       dataIndex: 'favorited',
-      render: (fav, elem) => (
-        <Checkbox
-          defaultChecked={fav}
-          onChange={(e) => {
-            favoritePhone({ number: elem.number, value: e.target.checked });
-          }}
-        />
+      render: (fav) => (
+        <div className={styles.checkboxWrapper}>
+          <Checkbox checked={fav} />
+        </div>
       ),
       sorter: (a, b) => Number(b.favorited) - Number(a.favorited),
     },
@@ -105,13 +102,38 @@ export default function App() {
       sorter: (a, b) => b.lastUse - a.lastUse,
     },
     {
-      key: 'delete',
+      key: 'action',
       render: (_, elem) => (
-        <DeleteOutlined
-          onClick={() => {
-            deletePhone({ number: elem.number });
-          }}
-        />
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    favoritePhone({ number: elem.number, value: !elem.favorited });
+                  }}
+                >
+                  {elem.favorited ? 'Unfavorite' : 'Favorite'}
+                </Button>
+              </Menu.Item>
+              <Menu.Item>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    deletePhone({ number: elem.number });
+                  }}
+                >
+                  Delete
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button type="link">
+            Actions <DownOutlined />
+          </Button>
+        </Dropdown>
       ),
     },
   ];

@@ -2,3 +2,17 @@
     font-weight: bold;
     color: green;
 }
+
+.checkboxWrapper{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+
+    label{
+        cursor: not-allowed;
+
+        span input{
+            cursor: not-allowed;
+        }
+    }
+}
